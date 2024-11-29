@@ -12,9 +12,9 @@ class DioNetworkService implements NetworkService {
   }
 
   @override
-  Future<dynamic> get(String url, {Map<String, dynamic>? queryParameters}) async {
+  Future<dynamic> get(String url, {Map<String, dynamic>? queryParameters, Options? options}) async {
     try {
-      final response = await _dio.get(url, queryParameters: queryParameters);
+      final response = await _dio.get(url, queryParameters: queryParameters, options: options ?? Options());
       return response.data;
     } catch (error) {
       throw _handleError(error);
@@ -22,9 +22,9 @@ class DioNetworkService implements NetworkService {
   }
 
   @override
-  Future<dynamic> post(String url, {dynamic data, Map<String, dynamic>? queryParameters}) async {
+  Future<dynamic> post(String url, {dynamic data, Map<String, dynamic>? queryParameters, Options? options}) async {
     try {
-      final response = await _dio.post(url, data: data, queryParameters: queryParameters);
+      final response = await _dio.post(url, data: data, queryParameters: queryParameters, options: options ?? Options());
       return response.data;
     } catch (error) {
       throw _handleError(error);
@@ -32,9 +32,9 @@ class DioNetworkService implements NetworkService {
   }
 
   @override
-  Future<dynamic> put(String url, {dynamic data, Map<String, dynamic>? queryParameters}) async {
+  Future<dynamic> put(String url, {dynamic data, Map<String, dynamic>? queryParameters, Options? options}) async {
     try {
-      final response = await _dio.put(url, data: data, queryParameters: queryParameters);
+      final response = await _dio.put(url, data: data, queryParameters: queryParameters, options: options ?? Options());
       return response.data;
     } catch (error) {
       throw _handleError(error);
@@ -42,9 +42,9 @@ class DioNetworkService implements NetworkService {
   }
 
   @override
-  Future<dynamic> delete(String url, {Map<String, dynamic>? queryParameters}) async {
+  Future<dynamic> delete(String url, {Map<String, dynamic>? queryParameters, Options? options}) async {
     try {
-      final response = await _dio.delete(url, queryParameters: queryParameters);
+      final response = await _dio.delete(url, queryParameters: queryParameters, options: options ?? Options());
       return response.data;
     } catch (error) {
       throw _handleError(error);

@@ -1,10 +1,8 @@
 // features/posts/data/datasources/posts_remote_data_source.dart
-import 'package:clean_architecture_flutter/shared/data/models/posts.dart';
+import 'package:clean_architecture_flutter/features/posts/data/datasources/posts_data_source.dart';
+import 'package:clean_architecture_flutter/shared/data/models/postsModel.dart';
 import 'package:clean_architecture_flutter/shared/data/remote/network_service.dart';
 
-abstract class PostsDatasource {
-  Future<List<Posts>> fetchPosts();
-}
 
 class PostsRemoteDataSource  extends PostsDatasource {
   final NetworkService networkService;
@@ -29,4 +27,6 @@ class PostsRemoteDataSource  extends PostsDatasource {
       throw Exception('Failed to fetch posts: $e');
     }
   }
+
+  
 }

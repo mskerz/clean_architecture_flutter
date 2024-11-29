@@ -1,4 +1,5 @@
-import 'package:clean_architecture_flutter/features/posts/presentation/screens/posts_screen.dart';
+import 'package:clean_architecture_flutter/features/authentication/presentation/screens/auth_login_screen.dart';
+// import 'package:clean_architecture_flutter/features/posts/presentation/screens/posts_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -16,7 +17,7 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      home: PostsScreen(),
+      home: LoginScreen(),
     );
   }
 }

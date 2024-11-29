@@ -1,12 +1,15 @@
 import 'package:clean_architecture_flutter/features/posts/domain/providers/posts_provider.dart';
 import 'package:clean_architecture_flutter/features/posts/domain/repositories/posts_repository.dart';
-import 'package:clean_architecture_flutter/shared/data/models/posts.dart';
+import 'package:clean_architecture_flutter/shared/data/models/postsModel.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 class PostsNotifier extends StateNotifier<AsyncValue<List<Posts>>> {
   final PostsRepository postsRepository;
 
-  PostsNotifier(this.postsRepository) : super(const AsyncValue.loading());
+PostsNotifier(this.postsRepository) : super(const AsyncValue.loading()) {
+    // โหลดโพสต์ทันทีเมื่อ notifier ถูกสร้าง
+    fetchPosts();
+  }
 
   Future<void> fetchPosts() async {
     try {
