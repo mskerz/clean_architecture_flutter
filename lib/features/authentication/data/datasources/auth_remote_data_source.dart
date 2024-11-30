@@ -61,4 +61,12 @@ class AuthRemoteDataSource extends AuthDataSource {
     // TODO: implement verify
     throw UnimplementedError();
   }
+  
+  @override
+  Future<void> refreshToken() {
+    // TODO: implement refreshToken
+    throw UnimplementedError();
+  }
+  
+  
 }

@@ -8,16 +8,15 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 class PostsScreen extends ConsumerWidget {
   const PostsScreen({super.key});
 
-
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     // ดึงสถานะของโพสต์
     final postsState = ref.watch(postsNotifierProvider);
-    
-    
+
     return Scaffold(
       appBar: AppBar(
         title: const Text('Posts'),
+        automaticallyImplyLeading: false,
       ),
       body: postsState.when(
         data: (posts) {
