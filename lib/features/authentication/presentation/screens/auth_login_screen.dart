@@ -1,10 +1,10 @@
 // login_screen.dart
 import 'package:clean_architecture_flutter/features/authentication/presentation/state/auth_state.dart';
 import 'package:clean_architecture_flutter/features/authentication/presentation/state/auth_state_notifier.dart';
-import 'package:clean_architecture_flutter/features/posts/presentation/screens/posts_screen.dart';
 import 'package:clean_architecture_flutter/shared/widget/app_loading.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
 
 class LoginScreen extends ConsumerWidget {
   final TextEditingController usernameController = TextEditingController();
@@ -16,10 +16,11 @@ class LoginScreen extends ConsumerWidget {
     ref.listen<AuthState>(authStateNotifierProvider, (previous, next) {
       if (next.isLoggedIn) {
         // เมื่อ isLoggedIn = true ให้ไปหน้า PostScreen
-        Navigator.pushReplacement(
-          context,
-          MaterialPageRoute(builder: (_) => PostsScreen()),
-        );
+        context.goNamed('posts');
+        // Navigator.pushReplacement(
+        //   context,
+        //   MaterialPageRoute(builder: (_) => PostsScreen()),
+        // );
       } else if (next.errorMessage.isNotEmpty) {
         // แสดงข้อความแจ้งเตือนหากเกิดข้อผิดพลาด
         ScaffoldMessenger.of(context).showSnackBar(

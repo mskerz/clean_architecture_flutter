@@ -2,7 +2,7 @@
 
 import 'package:clean_architecture_flutter/features/authentication/data/datasources/auth_data_source.dart';
 import 'package:clean_architecture_flutter/features/authentication/domain/repositories/auth_repository.dart';
-import 'package:clean_architecture_flutter/shared/data/models/authUserModel.dart';
+import 'package:clean_architecture_flutter/shared/data/models/user.dart';
 
 class AuthRepositoryImpl implements AuthRepository {
 
@@ -16,8 +16,14 @@ class AuthRepositoryImpl implements AuthRepository {
   }
 
   @override
-  Future<User> verify() {
+  Future<User> verify() async {
     // TODO: implement verify
+    return await authDataSource.verify();
+  }
+  
+  @override
+  Future<void> refreshToken() {
+    // TODO: implement refreshToken
     throw UnimplementedError();
   }
 

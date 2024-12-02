@@ -1,5 +1,5 @@
 
-import 'package:clean_architecture_flutter/shared/data/models/authUserModel.dart';
+import 'package:clean_architecture_flutter/shared/data/models/user.dart';
 
 abstract class AuthDataSource {
   Future<void> login(String username,String password);

@@ -1,6 +1,6 @@
 import 'package:clean_architecture_flutter/features/posts/domain/providers/posts_provider.dart';
 import 'package:clean_architecture_flutter/features/posts/domain/repositories/posts_repository.dart';
-import 'package:clean_architecture_flutter/shared/data/models/postsModel.dart';
+import 'package:clean_architecture_flutter/shared/data/models/posts.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 class PostsNotifier extends StateNotifier<AsyncValue<List<Posts>>> {

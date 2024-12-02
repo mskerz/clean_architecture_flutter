@@ -1,3 +1,4 @@
+import 'package:clean_architecture_flutter/core/networks/network_options.dart';
 import 'package:dio/dio.dart';
 import 'network_service.dart';
 
@@ -12,9 +13,10 @@ class DioNetworkService implements NetworkService {
   }
 
   @override
-  Future<dynamic> get(String url, {Map<String, dynamic>? queryParameters, Options? options}) async {
+  Future<dynamic> get(String url, {Map<String, dynamic>? queryParameters, NetworkOptions? options}) async {
     try {
-      final response = await _dio.get(url, queryParameters: queryParameters, options: options ?? Options());
+      final dioOptions = options?.setOptions() ?? Options();
+      final response = await _dio.get(url, queryParameters: queryParameters, options: dioOptions);
       return response.data;
     } catch (error) {
       throw _handleError(error);
@@ -22,9 +24,10 @@ class DioNetworkService implements NetworkService {
   }
 
   @override
-  Future<dynamic> post(String url, {dynamic data, Map<String, dynamic>? queryParameters, Options? options}) async {
+  Future<dynamic> post(String url, {dynamic data, Map<String, dynamic>? queryParameters, NetworkOptions? options}) async {
     try {
-      final response = await _dio.post(url, data: data, queryParameters: queryParameters, options: options ?? Options());
+      final dioOptions = options?.setOptions() ?? Options();
+      final response = await _dio.post(url, data: data, queryParameters: queryParameters, options: dioOptions);
       return response.data;
     } catch (error) {
       throw _handleError(error);
@@ -32,9 +35,10 @@ class DioNetworkService implements NetworkService {
   }
 
   @override
-  Future<dynamic> put(String url, {dynamic data, Map<String, dynamic>? queryParameters, Options? options}) async {
+  Future<dynamic> put(String url, {dynamic data, Map<String, dynamic>? queryParameters, NetworkOptions? options}) async {
     try {
-      final response = await _dio.put(url, data: data, queryParameters: queryParameters, options: options ?? Options());
+      final dioOptions = options?.setOptions() ?? Options();
+      final response = await _dio.put(url, data: data, queryParameters: queryParameters, options: dioOptions);
       return response.data;
     } catch (error) {
       throw _handleError(error);
@@ -42,9 +46,10 @@ class DioNetworkService implements NetworkService {
   }
 
   @override
-  Future<dynamic> delete(String url, {Map<String, dynamic>? queryParameters, Options? options}) async {
+  Future<dynamic> delete(String url, {Map<String, dynamic>? queryParameters, NetworkOptions? options}) async {
     try {
-      final response = await _dio.delete(url, queryParameters: queryParameters, options: options ?? Options());
+      final dioOptions = options?.setOptions() ?? Options();
+      final response = await _dio.delete(url, queryParameters: queryParameters, options: dioOptions);
       return response.data;
     } catch (error) {
       throw _handleError(error);

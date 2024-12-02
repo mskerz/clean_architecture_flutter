@@ -1,3 +1,4 @@
+import 'package:clean_architecture_flutter/features/authentication/presentation/state/auth_state_notifier.dart';
 import 'package:clean_architecture_flutter/features/posts/presentation/states/posts_state.dart';
 import 'package:clean_architecture_flutter/features/posts/presentation/widgets/posts_list_item.dart';
 import 'package:clean_architecture_flutter/shared/widget/app_errors.dart';
@@ -12,11 +13,12 @@ class PostsScreen extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     // ดึงสถานะของโพสต์
     final postsState = ref.watch(postsNotifierProvider);
-
+    final authState = ref.watch(authStateNotifierProvider);
     return Scaffold(
       appBar: AppBar(
         title: const Text('Posts'),
         automaticallyImplyLeading: false,
+        
       ),
       body: postsState.when(
         data: (posts) {

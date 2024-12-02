@@ -150,6 +150,7 @@ class Coordinates {
     lng: json["lng"]?.toDouble(),
   );
 
+
   Map<String, dynamic> toJson() => {
     "lat": lat,
     "lng": lng,

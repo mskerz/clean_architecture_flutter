@@ -1,4 +1,4 @@
-import 'package:clean_architecture_flutter/shared/data/models/postsModel.dart';
+import 'package:clean_architecture_flutter/shared/data/models/posts.dart';
 import 'package:clean_architecture_flutter/shared/widget/custom_cart.dart';
 import 'package:flutter/material.dart';
 

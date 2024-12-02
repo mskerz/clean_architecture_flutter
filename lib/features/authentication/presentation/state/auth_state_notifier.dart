@@ -23,8 +23,19 @@ class AuthStateNotifier extends StateNotifier<AuthState> {
     }
   }
 
+
+  Future<void> verify() async {
+    try {
+      final user = await authRepository.verify(); // ดึงข้อมูลผู้ใช้
+      state = state.copyWith(user: user);  // อัพเดตสถานะผู้ใช้
+    } catch (e) {
+      state = state.copyWith(errorMessage: e.toString());
+    }
+  }
   // You can add more actions (like logout) here if needed
+
 }
+
 
 
 

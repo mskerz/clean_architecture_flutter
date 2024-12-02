@@ -1,14 +1,15 @@
 // features/posts/data/datasources/posts_remote_data_source.dart
+import 'package:clean_architecture_flutter/core/networks/network_options.dart';
 import 'package:clean_architecture_flutter/features/authentication/data/datasources/auth_data_source.dart';
-import 'package:clean_architecture_flutter/shared/data/models/authUserModel.dart';
+import 'package:clean_architecture_flutter/shared/data/local/storage_service.dart';
+import 'package:clean_architecture_flutter/shared/data/models/user.dart';
 import 'package:clean_architecture_flutter/shared/data/remote/network_service.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
 class AuthRemoteDataSource extends AuthDataSource {
   final NetworkService networkService;
-
+  final StorageService storageService;
   // Constructor with NetworkService injected
-  AuthRemoteDataSource(this.networkService);
+  AuthRemoteDataSource(this.networkService, this.storageService);
 
   @override
   Future<void> login(String username, String password) async {
@@ -28,11 +29,10 @@ class AuthRemoteDataSource extends AuthDataSource {
         if (response['accessToken'] != null &&
             response['refreshToken'] != null) {
           // Save the access and refresh tokens in SharedPreferences
-          final prefs = await SharedPreferences.getInstance();
           // print('accessToken: ${response['accessToken']}');
-          await prefs.setString('accessToken', response['accessToken']);
-          await prefs.setString('refreshToken', response['refreshToken']);
-          await prefs.setBool('isLogin', true); // Mark as logged in
+          await storageService.set('accessToken', response['accessToken']);
+          await storageService.set('refreshToken', response['refreshToken']);
+          await storageService.set('isLogin', 'true'); // Mark as logged in
 
           // Optionally, return success message or user details
           // ignore: avoid_print
@@ -58,15 +58,32 @@ class AuthRemoteDataSource extends AuthDataSource {
 
   @override
   Future<User> verify() async {
-    // TODO: implement verify
-    throw UnimplementedError();
+    // throw UnimplementedError();
+    try {
+      // Retrieve accessToken from SharedPreferences using StorageService
+      final accessToken = await storageService.get('accessToken');
+
+      if (accessToken == null) {
+        throw Exception('No access token found');
+      }
+
+      // Use the access token to verify the user via the API
+      final response = await networkService.get('/auth/me',
+          options: NetworkOptions(
+            headers: {
+              'Authorization': 'Bearer $accessToken',
+            },
+      ));
+      print(response);
+      return User.fromJson(response);
+    } catch (e) {
+      throw Exception('Failed to verify ${e}');
+    }
   }
-  
+
   @override
   Future<void> refreshToken() {
     // TODO: implement refreshToken
     throw UnimplementedError();
   }
-  
-  
 }

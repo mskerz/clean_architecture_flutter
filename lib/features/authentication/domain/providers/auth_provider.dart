@@ -8,13 +8,20 @@ import 'package:clean_architecture_flutter/features/authentication/data/datasour
 import 'package:clean_architecture_flutter/features/authentication/data/repositories/auth_repository_impl.dart';
 import 'package:clean_architecture_flutter/features/authentication/domain/repositories/auth_repository.dart';
 import 'package:clean_architecture_flutter/shared/data/domain/provider/dio_network_service_provider.dart';
+import 'package:clean_architecture_flutter/shared/data/domain/provider/storage_service_provider.dart';
+import 'package:clean_architecture_flutter/shared/data/models/user.dart';
 import 'package:clean_architecture_flutter/shared/data/remote/network_service.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 final authDataSourceProvider = 
       Provider.family<AuthRemoteDataSource,NetworkService>(
- (_,networkService)=>AuthRemoteDataSource(networkService)
+ (ref,networkService){
+      final storageService = ref.watch(storageServiceProvider); // ดึง StorageService ผ่าน provider
+          return AuthRemoteDataSource(networkService, storageService);
+
+ }
 );
+
 
 
 final authRepositoryProvider =  Provider<AuthRepository>(
@@ -24,3 +31,8 @@ final authRepositoryProvider =  Provider<AuthRepository>(
     return AuthRepositoryImpl(dataSource);
   }
 );
+
+final userProvider = FutureProvider<User>((ref) async {
+  final authRepository = ref.watch(authRepositoryProvider);
+  return await authRepository.verify();  // ดึงข้อมูลผู้ใช้จาก API
+});
