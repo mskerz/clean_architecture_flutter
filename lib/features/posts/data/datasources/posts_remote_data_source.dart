@@ -27,6 +27,18 @@ class PostsRemoteDataSource  extends PostsDatasource {
       throw Exception('Failed to fetch posts: $e');
     }
   }
+  
+  @override
+  Future<List<Posts>> fetchPostsbyTag(String tag) {
+    // TODO: implement fetchPostsbyTag
+    throw UnimplementedError();
+  }
+  
+  @override
+  Future<List<Posts>> searchPost(String keyword) {
+    // TODO: implement searchPost
+    throw UnimplementedError();
+  }
 
   
 }
