@@ -17,7 +17,6 @@ class AuthRepositoryImpl implements AuthRepository {
 
   @override
   Future<User> verify() async {
-    // TODO: implement verify
     return await authDataSource.verify();
   }
   
@@ -25,6 +24,11 @@ class AuthRepositoryImpl implements AuthRepository {
   Future<void> refreshToken() {
     // TODO: implement refreshToken
     throw UnimplementedError();
+  }
+  
+  @override
+  Future<void> logout() async {
+     await authDataSource.logout();
   }
 
 }

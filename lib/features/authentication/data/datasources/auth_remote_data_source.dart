@@ -1,5 +1,4 @@
 // features/posts/data/datasources/posts_remote_data_source.dart
-import 'package:clean_architecture_flutter/core/networks/network_options.dart';
 import 'package:clean_architecture_flutter/features/authentication/data/datasources/auth_data_source.dart';
 import 'package:clean_architecture_flutter/shared/data/local/storage_service.dart';
 import 'package:clean_architecture_flutter/shared/data/models/user.dart';
@@ -31,6 +30,7 @@ class AuthRemoteDataSource extends AuthDataSource {
           // Save the access and refresh tokens in SharedPreferences
           // print('accessToken: ${response['accessToken']}');
           await storageService.set('accessToken', response['accessToken']);
+           
           await storageService.set('refreshToken', response['refreshToken']);
           await storageService.set('isLogin', 'true'); // Mark as logged in
 
@@ -41,10 +41,7 @@ class AuthRemoteDataSource extends AuthDataSource {
           throw Exception('Failed to login: Missing tokens in response');
         }
       }
-      // Handle invalid credentials (statusCode 400)
-      else if (response.statusCode == 400) {
-        throw Exception('Invalid credentials. Please try again.');
-      }
+
       // Handle any other errors (e.g., network issues)
       else {
         throw Exception(
@@ -52,7 +49,11 @@ class AuthRemoteDataSource extends AuthDataSource {
       }
     } catch (e) {
       // Catch and throw descriptive error messages
-      throw Exception('Login failed: $e');
+       if (e.toString().contains('400')) {
+        throw Exception('Invalid username or password. Please try again.');
+      } else {
+        throw Exception('Login failed: $e');
+      }
     }
   }
 
@@ -68,16 +69,12 @@ class AuthRemoteDataSource extends AuthDataSource {
       }
 
       // Use the access token to verify the user via the API
-      final response = await networkService.get('/auth/me',
-          options: NetworkOptions(
-            headers: {
-              'Authorization': 'Bearer $accessToken',
-            },
-      ));
-      print(response);
+      final response = await networkService.get('/auth/me',      );
+      // print(response);
+  
       return User.fromJson(response);
     } catch (e) {
-      throw Exception('Failed to verify ${e}');
+      throw Exception('Failed to verify $e');
     }
   }
 
@@ -86,4 +83,22 @@ class AuthRemoteDataSource extends AuthDataSource {
     // TODO: implement refreshToken
     throw UnimplementedError();
   }
+
+  @override
+Future<void> logout() async {
+  try {
+    final isAccessTokenRemoved = await storageService.remove("accessToken");
+    final isRefreshTokenRemoved = await storageService.remove("refreshToken");
+
+    if (isAccessTokenRemoved && isRefreshTokenRemoved) {
+      print("logged out completed!  ");
+      await storageService.set('isLogin', 'false'); // Update login status to false
+    } else {
+      throw Exception('Failed to remove tokens');
+    }
+  } catch (e) {
+    throw Exception('Failed to logout: $e');
+  }
+}
+
 }

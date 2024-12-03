@@ -5,5 +5,6 @@ abstract class AuthDataSource {
   Future<void> login(String username,String password);
   Future<User> verify();
   Future<void> refreshToken(); // เพิ่มเมธอดนี้
+  Future<void> logout();
 
 }

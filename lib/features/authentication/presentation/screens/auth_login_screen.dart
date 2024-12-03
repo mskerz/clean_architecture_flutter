@@ -23,8 +23,12 @@ class LoginScreen extends ConsumerWidget {
         // );
       } else if (next.errorMessage.isNotEmpty) {
         // แสดงข้อความแจ้งเตือนหากเกิดข้อผิดพลาด
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text(next.errorMessage)),
+        ScaffoldMessenger.of(context).showSnackBar( 
+          const SnackBar(backgroundColor: Colors.white,
+              content: Text(
+            "กรุณากรอก username หรือ password ให้ถูกต้อง",
+            style: TextStyle(color: Colors.redAccent),
+          )),
         );
       }
     });
@@ -54,19 +58,24 @@ class LoginScreen extends ConsumerWidget {
                 onPressed: () {
                   final username = usernameController.text;
                   final password = passwordController.text;
-                  ref
-                      .read(authStateNotifierProvider.notifier)
-                      .login(username, password);
+
+                  if (username.isEmpty || password.isEmpty) {
+                    // แสดงข้อความแจ้งเตือนหากเกิดข้อผิดพลาด
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      const SnackBar(
+                        
+                        backgroundColor: Colors.white70,
+                          content: Text(
+                        "คุณยังไม่ได้ใส่ ชื่อผู้ใช้ หรือ รหัสผ่าน !",
+                        style: TextStyle(color: Colors.redAccent),
+                      )),
+                    );
+                  }else{
+                      ref.read(authStateNotifierProvider.notifier).login(username, password);
+                  }
+                  
                 },
                 child: Text("Login"),
-              ),
-            if (authState.errorMessage.isNotEmpty)
-              Padding(
-                padding: const EdgeInsets.only(top: 10),
-                child: Text(
-                  authState.errorMessage,
-                  style: TextStyle(color: Colors.red),
-                ),
               ),
           ],
         ),

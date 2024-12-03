@@ -18,6 +18,7 @@ class AuthStateNotifier extends StateNotifier<AuthState> {
       // Call the login function from the repository
       await authRepository.login(username, password);
       state = state.copyWith(isLoggedIn: true, isLoading: false); // Set logged in state
+      await verify();
     } catch (e) {
       state = state.copyWith(isLoading: false, errorMessage: e.toString()); // Update error message
     }
@@ -34,6 +35,16 @@ class AuthStateNotifier extends StateNotifier<AuthState> {
   }
   // You can add more actions (like logout) here if needed
 
+  Future<void> logout() async {
+    state = state.copyWith(isLoading: true); // Set loading state to true
+
+    try {
+      await authRepository.logout(); // Call the logout function from the repository
+      state = state.copyWith(isLoggedIn: false, isLoading: false,user: null); // Set logged out state
+    } catch (e) {
+      state = state.copyWith(isLoading: false, errorMessage: e.toString()); // Update error message
+    }
+  }
 }
 
 

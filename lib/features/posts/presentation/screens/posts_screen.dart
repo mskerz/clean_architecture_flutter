@@ -1,8 +1,8 @@
-import 'package:clean_architecture_flutter/features/authentication/presentation/state/auth_state_notifier.dart';
 import 'package:clean_architecture_flutter/features/posts/presentation/states/posts_state.dart';
 import 'package:clean_architecture_flutter/features/posts/presentation/widgets/posts_list_item.dart';
 import 'package:clean_architecture_flutter/shared/widget/app_errors.dart';
 import 'package:clean_architecture_flutter/shared/widget/app_loading.dart';
+import 'package:clean_architecture_flutter/shared/widget/user_drawer.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -13,13 +13,16 @@ class PostsScreen extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     // ดึงสถานะของโพสต์
     final postsState = ref.watch(postsNotifierProvider);
-    final authState = ref.watch(authStateNotifierProvider);
+     // ติดตามการเปลี่ยนแปลงของ AuthState
+
+
     return Scaffold(
       appBar: AppBar(
+        
         title: const Text('Posts'),
-        automaticallyImplyLeading: false,
         
       ),
+      drawer: UserDrawer(), // ใช้ค่า default หาก user เป็น null
       body: postsState.when(
         data: (posts) {
           return ListView(

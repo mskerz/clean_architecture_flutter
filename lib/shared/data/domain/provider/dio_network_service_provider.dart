@@ -1,7 +1,8 @@
 // shared/data/domain/provider/dio_network_service_provider.dart
+import 'package:clean_architecture_flutter/shared/data/domain/provider/storage_service_provider.dart';
+import 'package:clean_architecture_flutter/shared/data/remote/dio_network_service.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import '../../remote/dio_network_service.dart';
 import '../../remote/network_service.dart';
 
 final dioProvider = Provider<Dio>((ref) {
@@ -10,6 +11,7 @@ final dioProvider = Provider<Dio>((ref) {
 
 final networkServiceProvider = Provider<NetworkService>((ref) {
   final dio = ref.watch(dioProvider);
-  return DioNetworkService(dio: dio); // Inject Dio ลงใน DioNetworkService
+  final storage = ref.watch(storageServiceProvider);
+  return DioNetworkService(dio: dio,storageService:storage ); // Inject Dio ลงใน DioNetworkService
 });
  

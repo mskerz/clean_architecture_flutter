@@ -10,6 +10,7 @@ class SharedPrefsStorageService implements StorageService {
       Completer<SharedPreferences>();
 
   @override
+
   void init() {
     initCompleter.complete(SharedPreferences.getInstance());
   }
