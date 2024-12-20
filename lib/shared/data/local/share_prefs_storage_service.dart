@@ -10,7 +10,6 @@ class SharedPrefsStorageService implements StorageService {
       Completer<SharedPreferences>();
 
   @override
-
   void init() {
     initCompleter.complete(SharedPreferences.getInstance());
   }
@@ -19,6 +18,7 @@ class SharedPrefsStorageService implements StorageService {
   bool get hasInitialized => sharedPreferences != null;
 
   @override
+
   Future<Object?> get(String key) async {
     sharedPreferences = await initCompleter.future;
     return sharedPreferences!.get(key);

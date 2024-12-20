@@ -9,25 +9,30 @@ List<Tags> tagsFromJson(String str) => List<Tags>.from(json.decode(str).map((x) 
 String tagsToJson(List<Tags> data) => json.encode(List<dynamic>.from(data.map((x) => x.toJson())));
 
 class Tags {
-    String slug;
+    String tag;
     String name;
     String url;
 
     Tags({
-        required this.slug,
+        required this.tag,
         required this.name,
         required this.url,
     });
 
     factory Tags.fromJson(Map<String, dynamic> json) => Tags(
-        slug: json["slug"],
+        tag: json["slug"],
         name: json["name"],
         url: json["url"],
     );
 
     Map<String, dynamic> toJson() => {
-        "slug": slug,
+        "slug": tag,
         "name": name,
         "url": url,
     };
+
+    @override
+  String toString() {
+    return ' $tag\n';
+  }
 }

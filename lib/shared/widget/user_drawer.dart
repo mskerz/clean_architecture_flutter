@@ -42,74 +42,123 @@ class UserDrawer extends ConsumerWidget {
         );
 
     return Drawer(
-      child: ListView(
-        shrinkWrap: true,
-        padding: EdgeInsets.zero,
-        children: [
-          // ข้อมูลผู้ใช้ที่แสดงบน Drawer
-          DrawerHeader(
-            decoration: BoxDecoration(
-              color: const Color.fromARGB(255, 255, 255, 255),
-            ),
-            child: Row(
+      backgroundColor: Colors.white,
+      child: authState.isLoggedIn
+          ? ListView(
+              shrinkWrap: true,
+              padding: EdgeInsets.zero,
               children: [
-                Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    CircleAvatar(
-                      radius: 30,
-                      backgroundImage: NetworkImage(user.image),
-                    ),
-                    Text(
-                      '${user.firstName}  ${user.lastName}',
-                      style: TextStyle(color: Colors.deepPurple, fontSize: 18),
-                    ),
-                    Text(
-                      user.email,
-                      style: TextStyle(color: Colors.deepPurple),
-                    ),
-                  ],
+                // ข้อมูลผู้ใช้ที่แสดงบน Drawer
+                DrawerHeader(
+                  decoration: BoxDecoration(
+                    color: const Color.fromARGB(255, 255, 255, 255),
+                  ),
+                  child: Row(
+                    children: [
+                      Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          CircleAvatar(
+                            radius: 30,
+                            backgroundImage: NetworkImage(user.image),
+                          ),
+                          Text(
+                            '${user.firstName}  ${user.lastName}',
+                            style: TextStyle(
+                                color: Colors.deepPurple, fontSize: 18),
+                          ),
+                          Text(
+                            user.email,
+                            style: TextStyle(color: Colors.deepPurple),
+                          ),
+                        ],
+                      ),
+                    ],
+                  ),
+                ),
+                // เมนูต่างๆ ใน Drawer
+                ListTile(
+                  leading: Icon(Icons.home),
+                  title: Text('Home'),
+                  onTap: () {
+                    // การนำทางไปหน้าหลัก
+                  },
+                ),
+                ListTile(
+                  leading: Icon(Icons.settings),
+                  title: Text('Settings'),
+                  onTap: () {
+                    // การนำทางไปหน้าการตั้งค่า
+                  },
+                ),
+                ListTile(
+                  leading: Icon(Icons.logout),
+                  title: Text('Logout'),
+                  onTap: () {
+                    showDialog(
+                        context: context,
+                        builder: (context) {
+                          return AlertDialog(
+                            title: Text("Confirm Logout"),
+                            content: Text('Are you sure you want to logout ?'),
+                            actions: [
+                              TextButton(
+                                  onPressed: () {
+                                    Navigator.of(context).pop();
+                                  },
+                                  child: Text("Cancel")),
+                              TextButton(
+                                onPressed: () {
+                                  Navigator.of(context).pop();
+                                  try {
+                                    // ทำการ logout
+                                    authNotifier.logout();
+
+                                    // เมื่อ logout เสร็จสมบูรณ์แล้ว
+                                    context
+                                        .goNamed('login'); // นำทางไปหน้าล็อกอิน
+                                  } catch (e) {
+                                    // ถ้ามีข้อผิดพลาดในระหว่าง logout
+                                    print("Logout failed: $e");
+                                    // อาจจะแสดง snackbar หรือข้อความแสดงข้อผิดพลาด
+                                    ScaffoldMessenger.of(context).showSnackBar(
+                                      SnackBar(
+                                          content: Text('Logout failed: $e')),
+                                    );
+                                  }
+                                },
+                                child: Text(
+                                  "Logout",
+                                  style: TextStyle(color: Colors.red),
+                                ),
+                              )
+                            ],
+                          );
+                        });
+                  },
+                ),
+              ],
+            )
+          : ListView(
+              padding: EdgeInsets.zero,
+              children: [
+                const DrawerHeader(
+                    child: Center(
+                  child: Text(
+                    "Welcome , Guest!",
+                    style: TextStyle(fontSize: 20, color: Colors.black54),
+                  ),
+                )
+              ),
+              ListTile(
+                  leading: const Icon(Icons.login),
+                  title: const Text('Login'),
+                  onTap: () {
+                    context.goNamed('login'); // นำทางไปหน้าล็อกอิน
+                  },
                 ),
               ],
             ),
-          ),
-          // เมนูต่างๆ ใน Drawer
-          ListTile(
-            leading: Icon(Icons.home),
-            title: Text('Home'),
-            onTap: () {
-              // การนำทางไปหน้าหลัก
-            },
-          ),
-          ListTile(
-            leading: Icon(Icons.settings),
-            title: Text('Settings'),
-            onTap: () {
-              // การนำทางไปหน้าการตั้งค่า
-            },
-          ),
-          ListTile(
-            leading: Icon(Icons.logout),
-            title: Text('Logout'),
-            onTap: () {
-              try {
-                 // ทำการ logout
-                authNotifier.logout();
-
-                // เมื่อ logout เสร็จสมบูรณ์แล้ว
-                context.goNamed('login'); // นำทางไปหน้าล็อกอิน
-              } catch (e) {
-                // ถ้ามีข้อผิดพลาดในระหว่าง logout
-                print("Logout failed: $e");
-                // อาจจะแสดง snackbar หรือข้อความแสดงข้อผิดพลาด
-                ScaffoldMessenger.of(context).showSnackBar(
-                  SnackBar(content: Text('Logout failed: $e')),
-                );
-              }
-            },
-          ),
-        ],
-      ),
     );
   }
 }

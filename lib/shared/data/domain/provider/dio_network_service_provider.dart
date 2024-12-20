@@ -11,7 +11,9 @@ final dioProvider = Provider<Dio>((ref) {
 
 final networkServiceProvider = Provider<NetworkService>((ref) {
   final dio = ref.watch(dioProvider);
-  final storage = ref.watch(storageServiceProvider);
+  final storage = ref.watch(secureStorageServiceProvider);
+    // final storage = ref.watch(secureStorageServiceProvider);
+
   return DioNetworkService(dio: dio,storageService:storage ); // Inject Dio ลงใน DioNetworkService
 });
  

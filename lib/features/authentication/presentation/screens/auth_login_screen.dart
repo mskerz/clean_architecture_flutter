@@ -26,7 +26,7 @@ class LoginScreen extends ConsumerWidget {
         ScaffoldMessenger.of(context).showSnackBar( 
           const SnackBar(backgroundColor: Colors.white,
               content: Text(
-            "กรุณากรอก username หรือ password ให้ถูกต้อง",
+            "ชื่อผู้ใช้ หรือ รหัสผ่าน ไม่ถูกต้อง! กรุณาลองอีกครั้ง",
             style: TextStyle(color: Colors.redAccent),
           )),
         );

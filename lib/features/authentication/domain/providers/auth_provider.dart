@@ -15,7 +15,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 final authDataSourceProvider = 
       Provider.family<AuthRemoteDataSource,NetworkService>(
  (ref,networkService){
-      final storageService = ref.watch(storageServiceProvider); // ดึง StorageService ผ่าน provider
+      final storageService = ref.watch(secureStorageServiceProvider); // ดึง StorageService ผ่าน provider
           return AuthRemoteDataSource(networkService, storageService);
 
  }

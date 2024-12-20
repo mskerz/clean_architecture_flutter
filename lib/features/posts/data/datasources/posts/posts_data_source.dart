@@ -5,5 +5,4 @@ abstract class PostsDatasource {
 
   //
   Future<List<Posts>> fetchPostsbyTag(String tag);
-  Future<List<Posts>> searchPost(String keyword);
 }

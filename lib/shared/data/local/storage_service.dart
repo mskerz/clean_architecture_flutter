@@ -4,11 +4,11 @@ abstract class StorageService {
 
   bool get hasInitialized;
 
-  Future<bool> remove(String key);
+  Future<dynamic> remove(String key);
 
   Future<Object?> get(String key);
 
-  Future<bool> set(String key, String data);
+Future<dynamic> set(String key, dynamic data);
 
   Future<void> clear();
 

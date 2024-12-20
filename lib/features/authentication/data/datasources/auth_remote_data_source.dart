@@ -30,10 +30,9 @@ class AuthRemoteDataSource extends AuthDataSource {
           // Save the access and refresh tokens in SharedPreferences
           // print('accessToken: ${response['accessToken']}');
           await storageService.set('accessToken', response['accessToken']);
-           
+          var accessToken = await storageService.get('accessToken');
+          print('accessToken ${accessToken.runtimeType} in Secure Storage = $accessToken');
           await storageService.set('refreshToken', response['refreshToken']);
-          await storageService.set('isLogin', 'true'); // Mark as logged in
-
           // Optionally, return success message or user details
           // ignore: avoid_print
           print('Login successful and tokens saved');
@@ -80,8 +79,7 @@ class AuthRemoteDataSource extends AuthDataSource {
 
   @override
   Future<void> refreshToken() {
-    // TODO: implement refreshToken
-    throw UnimplementedError();
+     throw UnimplementedError();
   }
 
   @override

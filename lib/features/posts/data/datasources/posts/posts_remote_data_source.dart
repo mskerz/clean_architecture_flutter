@@ -1,5 +1,5 @@
 // features/posts/data/datasources/posts_remote_data_source.dart
-import 'package:clean_architecture_flutter/features/posts/data/datasources/posts_data_source.dart';
+import 'package:clean_architecture_flutter/features/posts/data/datasources/posts/posts_data_source.dart';
 import 'package:clean_architecture_flutter/shared/data/models/posts.dart';
 import 'package:clean_architecture_flutter/shared/data/remote/network_service.dart';
 
@@ -29,16 +29,20 @@ class PostsRemoteDataSource  extends PostsDatasource {
   }
   
   @override
-  Future<List<Posts>> fetchPostsbyTag(String tag) {
-    // TODO: implement fetchPostsbyTag
-    throw UnimplementedError();
+  Future<List<Posts>> fetchPostsbyTag(String tag) async {
+    try {
+        final response = await networkService.get('/posts/tag/$tag');
+        if (response != null && response['posts'] != null) {
+        return (response['posts'] as List).map((post) => Posts.fromJson(post)).toList();
+      } else {
+        throw Exception('No posts found in the response');
+      }
+    } catch (e) {
+            throw Exception('Failed to fetch posts by tags : $e');
+
+    }
   }
   
-  @override
-  Future<List<Posts>> searchPost(String keyword) {
-    // TODO: implement searchPost
-    throw UnimplementedError();
-  }
-
+  
   
 }
